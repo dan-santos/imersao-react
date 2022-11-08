@@ -5,7 +5,11 @@ import Menu from "../src/components/Menu";
 import { StyledTimeline } from "../src/components/Timeline";
 
 function HomePage() {
-    const estiloHome = {};
+    const estiloHome = { 
+        display: "flex",
+        flexDirection: "column",
+        flex: 1,
+    };
 
     return (
         <>
@@ -32,6 +36,7 @@ const StyledHeader = styled.div`
     }
     .info-header {
         display: flex;
+        margin-top: 50px;
         align-items: center;
         width: 100%;
         padding: 16px 32px;
