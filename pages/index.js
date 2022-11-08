@@ -1,3 +1,4 @@
+import React from "react";
 import config from "../config.json";
 import styled from "styled-components";
 import { CSSReset } from "../src/components/CSSReset";
@@ -32,21 +33,27 @@ const StyledHeader = styled.div`
         width: 80px;
         height: 80px;
         border-radius: 50%;
-        margin-top: 50px;
     }
     .info-header {
         display: flex;
-        margin-top: 50px;
         align-items: center;
         width: 100%;
         padding: 16px 32px;
         gap: 16px;
     }
 `;
+
+const StyledBanner = styled.div`
+    background-color: blue;
+    background-image: url(${({ bg }) => bg});
+    /* background-image: url(${config.bg}); */
+    height: 230px;
+`;
+
 function Header() {
     return (
         <StyledHeader>
-            {/*<img src="banner"/>*/}
+            <StyledBanner bg={config.bg} />
             <section className="info-header">
                 <img src={`https://github.com/${config.github}.png`}/>
                 <div>
