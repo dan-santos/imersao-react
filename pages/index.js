@@ -16,15 +16,14 @@ function HomePage() {
 
     return (
         <>
-            <CSSReset/>
-            <div style={estiloHome}>
-                {/* Prop drilling */}
-                <Menu valorDoFiltro={valorDoFiltro} setValorDoFiltro={setValorDoFiltro}/>
-                <Header></Header>
-                <Timeline searchValue={valorDoFiltro} playlists={config.playlists}>
-                    Conteúdo
-                </Timeline>
-            </div>
+          <div style={estiloHome}>
+              {/* Prop drilling */}
+              <Menu valorDoFiltro={valorDoFiltro} setValorDoFiltro={setValorDoFiltro}/>
+              <Header></Header>
+              <Timeline searchValue={valorDoFiltro} playlists={config.playlists}>
+                  Conteúdo
+              </Timeline>
+          </div>
         </>
     )
 }
@@ -44,6 +43,7 @@ const StyledHeader = styled.div`
         padding: 16px 32px;
         gap: 16px;
     }
+    background-color: ${({ theme }) => theme.backgroundLevel1};
 `;
 
 const StyledBanner = styled.div`
