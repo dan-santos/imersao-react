@@ -1,9 +1,9 @@
 import React from "react";
 import config from "../config.json";
 import styled from "styled-components";
-import { CSSReset } from "../src/components/CSSReset";
 import Menu from "../src/components/Menu";
 import { StyledTimeline } from "../src/components/Timeline";
+import { videoService } from "../src/services/videoService";
 
 function HomePage() {
     const estiloHome = { 
@@ -12,7 +12,34 @@ function HomePage() {
         flex: 1,
     };
     
+    const service = videoService();
     const [valorDoFiltro, setValorDoFiltro] = React.useState("");
+    const [playlists, setPlaylists] = React.useState({});
+
+    // O useEffect eh utilizado para gerar uma ação após algo que foge ao nosso controle acontece
+    // Essa ação que faremos dentro dele, comumente chamamos de efeito colateral
+    // O useEffect também é um hook, mas que será executado por algo que não depende da ação do usuário
+    // Eh tipo um webhook, que espera uma resposta de uma api previamente chamada
+    React.useEffect(() => {
+      service.getAllVideos()
+        .then((res) => {
+          const data = res.data;
+          const novasPlaylists = { ...playlists };
+          data.forEach((video) => {
+            if (!novasPlaylists[video.playlist]) {
+              novasPlaylists[video.playlist] = [];
+            }
+            novasPlaylists[video.playlist].push(video);
+          })
+          // O react sempre supoe que estamos passado um novo dado, e nao um dado igual ao anterior
+          // por esse motivo, por mais que estejamos efetivamente mudando o array de playlists
+          // precisamos mandar uma copia dele a cada useEffect, senao as mudanças serão ignoradas
+          setPlaylists(novasPlaylists);
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+    }, []);
 
     return (
         <>
@@ -20,7 +47,7 @@ function HomePage() {
               {/* Prop drilling */}
               <Menu valorDoFiltro={valorDoFiltro} setValorDoFiltro={setValorDoFiltro}/>
               <Header></Header>
-              <Timeline searchValue={valorDoFiltro} playlists={config.playlists}>
+              <Timeline searchValue={valorDoFiltro} playlists={playlists}>
                   Conteúdo
               </Timeline>
           </div>
